@@ -19,3 +19,32 @@ workflows:
     artifacts:
       - android/app/build/outputs/apk/debug/app-debug.apk
 
+  ios-build:
+    name: BoraLer iOS
+    max_build_duration: 60
+    environment:
+      node: 22
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Instalar dependências
+        script: npm ci
+      - name: Sincronizar Capacitor
+        script: npx cap sync ios
+      - name: Instalar CocoaPods
+        script: |
+          cd ios/App
+          pod install
+      - name: Compilar iOS
+        script: |
+          cd ios/App
+          xcodebuild \
+            -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath $CM_BUILD_DIR/BoraLer.xcarchive \
+            archive \
+            CODE_SIGNING_ALLOWED=NO
+    artifacts:
+      - $CM_BUILD_DIR/BoraLer.xcarchive
