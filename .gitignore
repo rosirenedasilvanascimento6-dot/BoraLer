@@ -1,0 +1,5 @@
+android/termux-android-studio/
+node_modules/
+.gradle/
+build/
+.DS_Store

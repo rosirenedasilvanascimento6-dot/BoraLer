@@ -1,0 +1,2697 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Boraler</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+box-sizing:border-box;
+-webkit-tap-highlight-color:transparent;
+}
+
+body{
+margin:0;
+background:#080808;
+color:#fff;
+font-family:Arial,Helvetica,sans-serif;
+}
+
+button,input{
+font:inherit;
+}
+
+button{
+cursor:pointer;
+}
+
+:root{
+--gold:#f5c542;
+--gold2:#ffdd70;
+--dark:#080808;
+--card:#121212;
+--card2:#181818;
+--border:#292929;
+--muted:#999;
+}
+
+.login{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:22px;
+background:
+radial-gradient(circle at 50% 0%,#5a4300 0%,#171200 20%,#080808 55%);
+}
+
+.loginBox{
+width:100%;
+max-width:410px;
+padding:30px 24px;
+background:rgba(15,15,15,.96);
+border:1px solid #594900;
+border-radius:30px;
+box-shadow:0 20px 70px #000;
+}
+
+.brandLogin{
+text-align:center;
+margin-bottom:28px;
+}
+
+.logoBoraler{
+font-size:42px;
+font-weight:900;
+letter-spacing:-2px;
+color:var(--gold);
+}
+
+.logoBoraler span{
+color:#fff;
+}
+
+.logoLine{
+width:55px;
+height:4px;
+background:var(--gold);
+border-radius:20px;
+margin:8px auto;
+}
+
+.slogan{
+color:#888;
+font-size:13px;
+}
+
+.field{
+width:100%;
+padding:15px;
+margin:7px 0;
+background:#181818;
+border:1px solid #303030;
+border-radius:14px;
+color:#fff;
+outline:none;
+}
+
+.field:focus{
+border-color:var(--gold);
+}
+
+.btn{
+border:0;
+border-radius:14px;
+padding:14px;
+font-weight:bold;
+background:var(--gold);
+color:#111;
+}
+
+.btnDark{
+background:#242424;
+color:#fff;
+}
+
+.full{
+width:100%;
+margin-top:10px;
+}
+
+.msg{
+min-height:20px;
+text-align:center;
+font-size:13px;
+color:#ff7777;
+}
+
+/* APP */
+
+.app{
+display:none;
+min-height:100vh;
+padding-bottom:88px;
+}
+
+header{
+position:sticky;
+top:0;
+z-index:20;
+background:rgba(8,8,8,.94);
+backdrop-filter:blur(14px);
+border-bottom:1px solid #222;
+}
+
+.header{
+height:68px;
+max-width:760px;
+margin:auto;
+padding:0 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+.headerBrand{
+font-size:25px;
+font-weight:900;
+letter-spacing:-1px;
+color:var(--gold);
+}
+
+.headerBrand span{
+color:#fff;
+}
+
+.headerUser{
+width:42px;
+height:42px;
+border-radius:50%;
+background:var(--gold);
+color:#111;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+}
+
+.page{
+width:100%;
+max-width:760px;
+margin:auto;
+padding:20px 17px;
+}
+
+.section{
+display:none;
+animation:show .25s ease;
+}
+
+.section.active{
+display:block;
+}
+
+@keyframes show{
+from{
+opacity:0;
+transform:translateY(8px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.pageTitle{
+font-size:28px;
+margin:4px 0 5px;
+}
+
+.pageSub{
+color:var(--muted);
+font-size:14px;
+margin:0 0 20px;
+}
+
+.welcome{
+margin-bottom:18px;
+}
+
+.welcome h1{
+font-size:27px;
+margin:0;
+}
+
+.muted{
+color:var(--muted);
+}
+
+.gold{
+color:var(--gold);
+}
+
+.hero{
+padding:21px;
+border-radius:24px;
+border:1px solid #514300;
+background:
+radial-gradient(circle at 100% 0%,#604b00 0,transparent 34%),
+linear-gradient(135deg,#1b180b,#111);
+margin-bottom:16px;
+}
+
+.heroTag{
+font-size:12px;
+color:var(--gold);
+font-weight:bold;
+text-transform:uppercase;
+letter-spacing:1px;
+}
+
+.hero h2{
+margin:8px 0;
+font-size:22px;
+}
+
+.hero p{
+color:#aaa;
+font-size:14px;
+line-height:1.5;
+}
+
+.heroButtons{
+display:flex;
+gap:9px;
+margin-top:17px;
+}
+
+.heroButtons button{
+flex:1;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:9px;
+margin-bottom:17px;
+}
+
+.stat{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:17px;
+padding:14px 5px;
+text-align:center;
+}
+
+.stat strong{
+display:block;
+font-size:22px;
+color:var(--gold);
+}
+
+.stat small{
+color:#888;
+}
+
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:20px;
+padding:17px;
+margin-bottom:14px;
+}
+
+.cardHead{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:12px;
+}
+
+.cardHead h3{
+margin:0;
+}
+
+.progress{
+height:9px;
+background:#292929;
+border-radius:20px;
+overflow:hidden;
+}
+
+.progress span{
+display:block;
+height:100%;
+width:0;
+background:linear-gradient(90deg,var(--gold),var(--gold2));
+border-radius:20px;
+transition:.4s;
+}
+
+.progressText{
+color:#888;
+font-size:12px;
+margin-top:7px;
+}
+
+.subjectGrid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.subject{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:19px;
+padding:18px 8px;
+text-align:center;
+}
+
+.subject:active{
+transform:scale(.97);
+}
+
+.subjectIcon{
+font-size:34px;
+margin-bottom:9px;
+}
+
+.subjectName{
+font-weight:bold;
+}
+
+.subjectDesc{
+font-size:11px;
+color:#777;
+margin-top:5px;
+}
+
+.yearGrid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-bottom:18px;
+}
+
+.year{
+border:1px solid #292929;
+background:#141414;
+color:#fff;
+border-radius:18px;
+padding:18px;
+text-align:center;
+font-weight:bold;
+}
+
+.year.active{
+background:var(--gold);
+color:#111;
+border-color:var(--gold);
+}
+
+.year small{
+display:block;
+font-weight:normal;
+opacity:.65;
+margin-top:4px;
+}
+
+.search{
+width:100%;
+padding:15px;
+background:#151515;
+border:1px solid #303030;
+border-radius:15px;
+color:#fff;
+outline:none;
+margin-bottom:15px;
+}
+
+.material{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px;
+padding:15px;
+margin-bottom:10px;
+}
+
+.materialTop{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.materialIcon{
+width:46px;
+height:46px;
+border-radius:14px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#282000;
+font-size:23px;
+}
+
+.material h3{
+margin:0 0 4px;
+}
+
+.material p{
+margin:0;
+color:#777;
+font-size:12px;
+}
+
+.pdfBtn{
+display:block;
+text-align:center;
+text-decoration:none;
+background:var(--gold);
+color:#111;
+font-weight:bold;
+padding:12px;
+border-radius:12px;
+margin-top:12px;
+}
+
+.emptyPdf{
+margin-top:12px;
+padding:11px;
+background:#191919;
+border-radius:11px;
+color:#777;
+font-size:12px;
+text-align:center;
+}
+
+.task{
+display:flex;
+gap:12px;
+align-items:flex-start;
+}
+
+.task input{
+width:20px;
+height:20px;
+accent-color:var(--gold);
+margin-top:2px;
+}
+
+.taskText{
+flex:1;
+}
+
+.taskText h3{
+margin:0 0 5px;
+font-size:15px;
+}
+
+.taskText p{
+margin:0;
+color:#777;
+font-size:12px;
+}
+
+.done{
+text-decoration:line-through;
+opacity:.45;
+}
+
+.levelBox{
+text-align:center;
+padding:25px;
+border-radius:24px;
+background:
+radial-gradient(circle,#3b2d00,#121212 60%);
+border:1px solid #574800;
+margin-bottom:15px;
+}
+
+.levelCircle{
+width:120px;
+height:120px;
+border:7px solid var(--gold);
+border-radius:50%;
+margin:auto;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+}
+
+.levelCircle strong{
+font-size:35px;
+color:var(--gold);
+}
+
+.levelCircle small{
+color:#888;
+}
+
+.profile{
+text-align:center;
+margin-bottom:20px;
+}
+
+.avatar{
+width:94px;
+height:94px;
+border-radius:50%;
+background:var(--gold);
+color:#111;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:37px;
+font-weight:bold;
+margin:auto;
+}
+
+.setting{
+display:flex;
+justify-content:space-between;
+padding:16px 2px;
+border-bottom:1px solid #252525;
+}
+
+.setting:last-child{
+border:0;
+}
+
+.help{
+display:grid;
+gap:9px;
+}
+
+.help button{
+background:#171717;
+border:1px solid #292929;
+color:#fff;
+padding:16px;
+border-radius:14px;
+text-align:left;
+}
+
+.bottom{
+position:fixed;
+left:0;
+right:0;
+bottom:0;
+height:76px;
+display:flex;
+background:rgba(13,13,13,.97);
+border-top:1px solid #292929;
+z-index:100;
+}
+
+.bottom button{
+flex:1;
+border:0;
+background:none;
+color:#777;
+font-size:10px;
+}
+
+.bottom button.active{
+color:var(--gold);
+}
+
+.bottom b{
+display:block;
+font-size:20px;
+margin-bottom:3px;
+}
+
+.pdfReader{
+display:none;
+position:fixed;
+inset:0;
+z-index:9999;
+background:#050505;
+}
+
+.pdfHeader{
+height:62px;
+display:flex;
+align-items:center;
+gap:10px;
+padding:10px;
+background:#111;
+border-bottom:1px solid #333;
+}
+
+.pdfBack{
+background:var(--gold);
+border:0;
+border-radius:10px;
+padding:9px 13px;
+font-weight:bold;
+}
+
+.pdfTitle{
+font-size:14px;
+font-weight:bold;
+overflow:hidden;
+white-space:nowrap;
+text-overflow:ellipsis;
+}
+
+.pdfFrame{
+width:100%;
+height:calc(100vh - 62px);
+border:0;
+background:white;
+}
+
+.toast{
+position:fixed;
+left:50%;
+bottom:90px;
+transform:translateX(-50%);
+background:var(--gold);
+color:#111;
+padding:12px 17px;
+border-radius:13px;
+font-weight:bold;
+font-size:13px;
+display:none;
+z-index:10000;
+}
+
+@media(max-width:380px){
+
+.headerBrand{
+font-size:22px;
+}
+
+.pageTitle{
+font-size:25px;
+}
+
+.bottom button{
+font-size:9px;
+}
+
+.bottom b{
+font-size:18px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div id="login" class="login">
+
+<div class="loginBox">
+
+<div class="brandLogin">
+
+<div class="logoBoraler">
+BOR<span>ALER</span>
+</div>
+
+<div class="logoLine"></div>
+
+<div class="slogan">
+Aprenda no seu ritmo. Evolua todos os dias.
+</div>
+
+</div>
+
+<input
+id="nomeCadastro"
+class="field"
+placeholder="Seu nome"
+>
+
+<input
+id="email"
+class="field"
+type="email"
+placeholder="Seu e-mail"
+>
+
+<input
+id="senha"
+class="field"
+type="password"
+placeholder="Sua senha"
+>
+
+<button
+class="btn full"
+onclick="cadastrar()"
+>
+CRIAR CONTA
+</button>
+
+<button
+class="btn btnDark full"
+onclick="entrar()"
+>
+ENTRAR
+</button>
+
+<p id="msg" class="msg"></p>
+
+</div>
+
+</div>
+
+<div id="app" class="app">
+
+<header>
+
+<div class="header">
+
+<div class="headerBrand">
+BOR<span>ALER</span> 📚
+</div>
+
+<div
+id="avatarMini"
+class="headerUser"
+>
+B
+</div>
+
+</div>
+
+</header>
+
+<main class="page">
+
+<section
+id="inicio"
+class="section active"
+>
+
+<div class="welcome">
+
+<h1>
+Olá, <span id="nomeHome" class="gold">
+estudante
+</span> 👋
+</h1>
+
+<p class="muted">
+Vamos continuar seus estudos?
+</p>
+
+</div>
+
+<div class="hero">
+
+<div class="heroTag">
+BORALER • ESTUDOS
+</div>
+
+<h2>
+🚀 Seu próximo nível começa aqui
+</h2>
+
+<p>
+Leia seus materiais, faça suas tarefas e acompanhe sua evolução.
+</p>
+
+<div class="progress">
+<span id="barraHome"></span>
+</div>
+
+<div
+id="textoHome"
+class="progressText"
+>
+0% concluído
+</div>
+
+<div class="heroButtons">
+
+<button
+class="btn"
+onclick="pagina('biblioteca')"
+>
+📚 Livros
+</button>
+
+<button
+class="btn btnDark"
+onclick="pagina('tarefas')"
+>
+📝 Tarefas
+</button>
+
+</div>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<strong id="statTarefas">0</strong>
+<small>Tarefas</small>
+</div>
+
+<div class="stat">
+<strong>5</strong>
+<small>Matérias</small>
+</div>
+
+<div class="stat">
+<strong id="statXp">0</strong>
+<small>XP</small>
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="cardHead">
+
+<h3>🎓 Sua jornada</h3>
+
+<span class="gold">
+Boraler
+</span>
+
+</div>
+
+<p class="muted">
+Escolha sua série e encontre seus livros na biblioteca.
+</p>
+
+</div>
+
+<h2>
+📚 Matérias
+</h2>
+
+<div class="subjectGrid">
+
+<div
+class="subject"
+onclick="abrirMateria('Português')"
+>
+<div class="subjectIcon">📖</div>
+<div class="subjectName">Português</div>
+<div class="subjectDesc">Linguagem e literatura</div>
+</div>
+
+<div
+class="subject"
+onclick="abrirMateria('Matemática')"
+>
+<div class="subjectIcon">📐</div>
+<div class="subjectName">Matemática</div>
+<div class="subjectDesc">Números e lógica</div>
+</div>
+
+<div
+class="subject"
+onclick="abrirMateria('História')"
+>
+<div class="subjectIcon">📜</div>
+<div class="subjectName">História</div>
+<div class="subjectDesc">Conheça o passado</div>
+</div>
+
+<div
+class="subject"
+onclick="abrirMateria('Geografia')"
+>
+<div class="subjectIcon">🌎</div>
+<div class="subjectName">Geografia</div>
+<div class="subjectDesc">Mundo e espaço</div>
+</div>
+
+<div
+class="subject"
+onclick="abrirMateria('Ciências')"
+>
+<div class="subjectIcon">🔬</div>
+<div class="subjectName">Ciências</div>
+<div class="subjectDesc">Descubra como funciona</div>
+</div>
+
+</div>
+
+</section>
+
+<section
+id="biblioteca"
+class="section"
+>
+
+<h1 class="pageTitle">
+📚 Biblioteca
+</h1>
+
+<p class="pageSub">
+Escolha sua série e encontre seus materiais.
+</p>
+
+<div class="yearGrid">
+
+<button
+class="year active"
+onclick="selecionarAno(6,this)"
+>
+6º ANO
+<small>Ensino Fundamental</small>
+</button>
+
+<button
+class="year"
+onclick="selecionarAno(7,this)"
+>
+7º ANO
+<small>Ensino Fundamental</small>
+</button>
+
+<button
+class="year"
+onclick="selecionarAno(8,this)"
+>
+8º ANO
+<small>Ensino Fundamental</small>
+</button>
+
+<button
+class="year"
+onclick="selecionarAno(9,this)"
+>
+9º ANO
+<small>Ensino Fundamental</small>
+</button>
+
+</div>
+
+<div class="card">
+
+<h3 id="tituloSerie">
+📚 Materiais do 6º ano
+</h3>
+
+<p class="muted">
+Selecione uma matéria para abrir o livro.
+</p>
+
+</div>
+
+<input
+id="pesquisa"
+class="search"
+placeholder="🔎 Pesquisar matéria..."
+oninput="pesquisar()"
+>
+
+<div id="listaMateriais">
+
+<div
+class="material"
+data-nome="Português"
+>
+<div class="materialTop">
+
+<div class="materialIcon">
+📖
+</div>
+
+<div>
+<h3>Português</h3>
+<p>Livro e materiais de Português</p>
+</div>
+
+</div>
+
+<div id="pdf-portugues"></div>
+
+</div>
+
+<div
+class="material"
+data-nome="Matemática"
+>
+<div class="materialTop">
+
+<div class="materialIcon">
+📐
+</div>
+
+<div>
+<h3>Matemática</h3>
+<p>Livro e materiais de Matemática</p>
+</div>
+
+</div>
+
+<div id="pdf-matematica"></div>
+
+</div>
+
+<div
+class="material"
+data-nome="História"
+>
+<div class="materialTop">
+
+<div class="materialIcon">
+📜
+</div>
+
+<div>
+<h3>História</h3>
+<p>Livro e materiais de História</p>
+</div>
+
+</div>
+
+<div id="pdf-historia"></div>
+
+</div>
+
+<div
+class="material"
+data-nome="Geografia"
+>
+<div class="materialTop">
+
+<div class="materialIcon">
+🌎
+</div>
+
+<div>
+<h3>Geografia</h3>
+<p>Livro e materiais de Geografia</p>
+</div>
+
+</div>
+
+<div id="pdf-geografia"></div>
+
+</div>
+
+<div
+class="material"
+data-nome="Ciências"
+>
+<div class="materialTop">
+
+<div class="materialIcon">
+🔬
+</div>
+
+<div>
+<h3>Ciências</h3>
+<p>Livro e materiais de Ciências</p>
+</div>
+
+<div id="pdf-ciencias"></div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+<!-- TAREFAS -->
+
+<section
+id="tarefas"
+class="section"
+>
+
+<h1 class="pageTitle">
+📝 Tarefas
+</h1>
+
+<p class="pageSub">
+Complete suas atividades e ganhe XP.
+</p>
+
+<div class="hero">
+
+<div class="heroTag">
+META DE HOJE
+</div>
+
+<h2>
+🎯 Continue avançando
+</h2>
+
+<div class="progress">
+<span id="barraTarefas"></span>
+</div>
+
+<div
+id="textoTarefas"
+class="progressText"
+>
+0 de 5 concluídas
+</div>
+
+</div>
+
+<div id="listaTarefas">
+
+<div class="material task">
+
+<input
+type="checkbox"
+onchange="concluirTarefa(this)"
+>
+
+<div class="taskText">
+
+<h3>
+📖 Revisar Português
+</h3>
+
+<p>
+Leia e revise o conteúdo estudado.
+</p>
+
+</div>
+
+</div>
+
+<div class="material task">
+
+<input
+type="checkbox"
+onchange="concluirTarefa(this)"
+>
+
+<div class="taskText">
+
+<h3>
+📐 Praticar Matemática
+</h3>
+
+<p>
+Resolva alguns exercícios.
+</p>
+
+</div>
+
+</div>
+
+<div class="material task">
+
+<input
+type="checkbox"
+onchange="concluirTarefa(this)"
+>
+
+<div class="taskText">
+
+<h3>
+📜 Revisar História
+</h3>
+
+<p>
+Revise os principais acontecimentos.
+</p>
+
+</div>
+
+</div>
+
+<div class="material task">
+
+<input
+type="checkbox"
+onchange="concluirTarefa(this)"
+>
+
+<div class="taskText">
+
+<h3>
+🌎 Estudar Geografia
+</h3>
+
+<p>
+Leia o conteúdo da matéria.
+</p>
+
+</div>
+
+</div>
+
+<div class="material task">
+
+<input
+type="checkbox"
+onchange="concluirTarefa(this)"
+>
+
+<div class="taskText">
+
+<h3>
+🔬 Revisar Ciências
+</h3>
+
+<p>
+Revise suas anotações.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PROGRESSO -->
+
+<section
+id="progresso"
+class="section"
+>
+
+<h1 class="pageTitle">
+🏆 Progresso
+</h1>
+
+<p class="pageSub">
+Veja o quanto você já evoluiu.
+</p>
+
+<div class="levelBox">
+
+<div class="levelCircle">
+
+<strong id="nivel">
+1
+</strong>
+
+<small>
+NÍVEL
+</small>
+
+</div>
+
+<h3 id="xpTexto">
+0 / 100 XP
+</h3>
+
+<div class="progress">
+<span id="barraXp"></span>
+</div>
+
+</div>
+
+<div class="stats">
+
+<div class="stat">
+<strong id="progTarefas">0</strong>
+<small>Tarefas</small>
+</div>
+
+<div class="stat">
+<strong id="progPercent">0%</strong>
+<small>Conclusão</small>
+</div>
+
+<div class="stat">
+<strong id="progXp">0</strong>
+<small>XP</small>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>
+🏅 Conquistas
+</h3>
+
+<p>
+🌱 Primeiro passo
+</p>
+
+<p>
+📚 Estudante
+</p>
+
+<p>
+🔥 Em evolução
+</p>
+
+</div>
+
+</section>
+
+
+<!-- PERFIL -->
+
+<section
+id="perfil"
+class="section"
+>
+
+<h1 class="pageTitle">
+👤 Meu perfil
+</h1>
+
+<p class="pageSub">
+Suas informações no Boraler.
+</p>
+
+<div class="profile">
+
+<div
+id="avatarGrande"
+class="avatar"
+>
+B
+</div>
+
+<h2 id="nomePerfil">
+Estudante
+</h2>
+
+<p
+id="emailPerfil"
+class="muted"
+>
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+📊 Estatísticas
+</h3>
+
+<p>
+📝 Tarefas concluídas:
+<b id="perfilTarefas">0</b>
+</p>
+
+<p>
+⭐ XP:
+<b id="perfilXp">0</b>
+</p>
+
+<p>
+🏆 Nível:
+<b id="perfilNivel">1</b>
+</p>
+
+</div>
+
+<div class="card">
+
+<h3>
+⚙️ Configurações
+</h3>
+
+<div class="setting">
+<span>🌙 Tema</span>
+<b class="gold">Escuro</b>
+</div>
+
+<div class="setting">
+<span>📱 Plataforma</span>
+<b>Android</b>
+</div>
+
+<div class="setting">
+<span>📚 Versão</span>
+<b>1.0</b>
+</div>
+
+</div>
+
+<button
+class="btn btnDark full"
+onclick="sair()"
+>
+🚪 SAIR DA CONTA
+</button>
+
+</section>
+
+
+<!-- AJUDA -->
+
+<section
+id="ajuda"
+class="section"
+>
+
+<h1 class="pageTitle">
+❓ Ajuda
+</h1>
+
+<p class="pageSub">
+Veja como usar o Boraler.
+</p>
+
+<div class="help">
+
+<button
+onclick="mostrarAjuda('livros')"
+>
+📚 Como encontrar meus livros?
+</button>
+
+<button
+onclick="mostrarAjuda('pdf')"
+>
+📄 Como abrir um PDF?
+</button>
+
+<button
+onclick="mostrarAjuda('tarefas')"
+>
+📝 Como funcionam as tarefas?
+</button>
+
+<button
+onclick="mostrarAjuda('xp')"
+>
+🏆 Como funciona o XP?
+</button>
+
+</div>
+
+<div
+id="respostaAjuda"
+class="card"
+style="display:none;margin-top:14px"
+>
+</div>
+
+</section>
+
+</main>
+
+
+<!-- MENU -->
+
+<nav class="bottom">
+
+<button
+class="active"
+onclick="pagina('inicio',this)"
+>
+<b>⌂</b>
+Início
+</button>
+
+<button
+onclick="pagina('biblioteca',this)"
+>
+<b>▣</b>
+Livros
+</button>
+
+<button
+onclick="pagina('tarefas',this)"
+>
+<b>✓</b>
+Tarefas
+</button>
+
+<button
+onclick="pagina('progresso',this)"
+>
+<b>★</b>
+Progresso
+</button>
+
+<button
+onclick="pagina('perfil',this)"
+>
+<b>●</b>
+Perfil
+</button>
+
+</nav>
+
+</div>
+
+
+<!-- LEITOR DE PDF -->
+
+<div
+id="pdfReader"
+class="pdfReader"
+>
+
+<div class="pdfHeader">
+
+<button
+class="pdfBack"
+onclick="fecharPDF()"
+>
+← Voltar
+</button>
+
+<div
+id="pdfTitle"
+class="pdfTitle"
+>
+Livro
+</div>
+
+</div>
+
+<iframe
+id="pdfFrame"
+class="pdfFrame"
+src=""
+>
+</iframe>
+
+</div>
+
+
+<div
+id="toast"
+class="toast"
+>
+</div>
+
+
+<script>
+
+/* ==================================================
+SUPABASE
+================================================== */
+
+const SUPABASE_URL =
+"https://peikwlepjkdulcjezlhm.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_WQtdNYXA9VlFEtyryuNd3A_z2N8sdcq";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_PUBLISHABLE_KEY,
+{
+auth:{
+persistSession:true,
+autoRefreshToken:true,
+detectSessionInUrl:true
+}
+}
+);
+
+
+/* ==================================================
+PDFS DOS LIVROS
+================================================== */
+
+const LIVROS = {
+
+6:{
+Portugues:"COLE_AQUI_O_PDF",
+Matematica:"COLE_AQUI_O_PDF",
+Historia:"COLE_AQUI_O_PDF",
+Geografia:"https://drive.google.com/file/d/13R9dkZ98DGERnlVsnERdaNgVdbSo1P8d/view?usp=drivesdk",
+Ciencias:"COLE_AQUI_O_PDF"
+},
+
+7:{
+Portugues:"COLE_AQUI_O_PDF",
+Matematica:"COLE_AQUI_O_PDF",
+Historia:"COLE_AQUI_O_PDF",
+Geografia:"COLE_AQUI_O_PDF",
+Ciencias:"COLE_AQUI_O_PDF"
+},
+
+8:{
+Portugues:"COLE_AQUI_O_PDF",
+Matematica:"COLE_AQUI_O_PDF",
+Historia:"COLE_AQUI_O_PDF",
+Geografia:"COLE_AQUI_O_PDF",
+Ciencias:"COLE_AQUI_O_PDF"
+},
+
+9:{
+Portugues:"COLE_AQUI_O_PDF",
+Matematica:"COLE_AQUI_O_PDF",
+Historia:"COLE_AQUI_O_PDF",
+Geografia:"COLE_AQUI_O_PDF",
+Ciencias:"COLE_AQUI_O_PDF"
+}
+
+};
+
+
+/* ==================================================
+DADOS
+================================================== */
+
+const TOTAL_TAREFAS=5;
+
+let anoAtual=6;
+
+
+/* ==================================================
+MENSAGEM
+================================================== */
+
+function mostrarMensagem(texto,erro=true){
+
+const msg=
+document.getElementById("msg");
+
+msg.innerText=texto;
+
+msg.style.color=
+erro ? "#ff7777" : "#7dff9b";
+
+}
+
+
+/* ==================================================
+CADASTRO SUPABASE
+================================================== */
+
+async function cadastrar(){
+
+const nome=
+document.getElementById("nomeCadastro")
+.value.trim();
+
+const email=
+document.getElementById("email")
+.value.trim();
+
+const senha=
+document.getElementById("senha")
+.value;
+
+
+if(nome===""||email===""||senha===""){
+
+mostrarMensagem(
+"Preencha todos os campos."
+);
+
+return;
+
+}
+
+if(senha.length<6){
+
+mostrarMensagem(
+"A senha precisa ter pelo menos 6 caracteres."
+);
+
+return;
+
+}
+
+
+mostrarMensagem(
+"Criando sua conta...",
+false
+);
+
+
+try{
+
+const {data,error}=
+await supabaseClient.auth.signUp({
+
+email:email,
+
+password:senha,
+
+options:{
+data:{
+nome:nome
+}
+}
+
+});
+
+
+if(error){
+
+mostrarMensagem(
+error.message
+);
+
+return;
+
+}
+
+
+if(data.user){
+
+localStorage.setItem(
+"boraler_nome",
+nome
+);
+
+localStorage.setItem(
+"boraler_email",
+email
+);
+
+
+if(data.session){
+
+mostrarMensagem(
+"Conta criada com sucesso!",
+false
+);
+
+abrirAppComUsuario(data.user);
+
+}else{
+
+mostrarMensagem(
+"Conta criada! Verifique seu e-mail para confirmar a conta.",
+false
+);
+
+}
+
+}
+
+}catch(erro){
+
+console.error(erro);
+
+mostrarMensagem(
+"Não foi possível criar a conta."
+);
+
+}
+
+}
+
+
+/* ==================================================
+LOGIN SUPABASE
+================================================== */
+
+async function entrar(){
+
+const email=
+document.getElementById("email")
+.value.trim();
+
+const senha=
+document.getElementById("senha")
+.value;
+
+
+if(email===""||senha===""){
+
+mostrarMensagem(
+"Digite seu e-mail e sua senha."
+);
+
+return;
+
+}
+
+
+mostrarMensagem(
+"Entrando...",
+false
+);
+
+
+try{
+
+const {data,error}=
+await supabaseClient.auth.signInWithPassword({
+
+email:email,
+
+password:senha
+
+});
+
+
+if(error){
+
+mostrarMensagem(
+"Não foi possível entrar. Verifique o e-mail e a senha."
+);
+
+return;
+
+}
+
+
+if(data.user){
+
+abrirAppComUsuario(data.user);
+
+}
+
+}catch(erro){
+
+console.error(erro);
+
+mostrarMensagem(
+"Erro ao tentar entrar."
+);
+
+}
+
+}
+
+
+/* ==================================================
+CARREGAR USUÁRIO
+================================================== */
+
+async function carregarUsuario(){
+
+try{
+
+const {data,error}=
+await supabaseClient.auth.getUser();
+
+if(error){
+
+console.log(error);
+
+return;
+
+}
+
+if(data.user){
+
+abrirAppComUsuario(data.user);
+
+}
+
+}catch(erro){
+
+console.error(erro);
+
+}
+
+}
+
+
+/* ==================================================
+ABRIR APP COM USUÁRIO
+================================================== */
+
+function abrirAppComUsuario(user){
+
+const nome=
+user.user_metadata?.nome ||
+localStorage.getItem("boraler_nome") ||
+"Estudante";
+
+const email=
+user.email ||
+localStorage.getItem("boraler_email") ||
+"";
+
+
+localStorage.setItem(
+"boraler_nome",
+nome
+);
+
+localStorage.setItem(
+"boraler_email",
+email
+);
+
+
+document.getElementById("login")
+.style.display="none";
+
+document.getElementById("app")
+.style.display="block";
+
+
+const letra=
+nome.charAt(0)
+.toUpperCase();
+
+
+document.getElementById(
+"nomeHome"
+).innerText=nome;
+
+
+document.getElementById(
+"nomePerfil"
+).innerText=nome;
+
+
+document.getElementById(
+"emailPerfil"
+).innerText=email;
+
+
+document.getElementById(
+"avatarMini"
+).innerText=letra;
+
+
+document.getElementById(
+"avatarGrande"
+).innerText=letra;
+
+
+atualizar();
+
+carregarLivros();
+
+}
+
+
+/* ==================================================
+SAIR
+================================================== */
+
+async function sair(){
+
+try{
+
+await supabaseClient.auth.signOut();
+
+}catch(erro){
+
+console.error(erro);
+
+}
+
+
+localStorage.removeItem(
+"boraler_nome"
+);
+
+localStorage.removeItem(
+"boraler_email"
+);
+
+
+document.getElementById("app")
+.style.display="none";
+
+document.getElementById("login")
+.style.display="flex";
+
+
+document.getElementById("nomeCadastro")
+.value="";
+
+document.getElementById("email")
+.value="";
+
+document.getElementById("senha")
+.value="";
+
+
+mostrarMensagem("");
+
+}
+
+
+/* ==================================================
+NAVEGAÇÃO
+================================================== */
+
+function pagina(nome,botao){
+
+document
+.querySelectorAll(".section")
+.forEach(function(sec){
+
+sec.classList.remove("active");
+
+});
+
+
+const destino=
+document.getElementById(nome);
+
+if(destino){
+
+destino.classList.add("active");
+
+}
+
+
+document
+.querySelectorAll(".bottom button")
+.forEach(function(btn){
+
+btn.classList.remove("active");
+
+});
+
+
+if(botao){
+
+botao.classList.add("active");
+
+}
+
+
+window.scrollTo(0,0);
+
+}
+
+
+/* ==================================================
+MATÉRIA
+================================================== */
+
+function abrirMateria(nome){
+
+pagina("biblioteca");
+
+document.getElementById(
+"pesquisa"
+).value=nome;
+
+pesquisar();
+
+}
+
+
+/* ==================================================
+ANO
+================================================== */
+
+function selecionarAno(ano,botao){
+
+anoAtual=ano;
+
+
+document
+.querySelectorAll(".year")
+.forEach(function(item){
+
+item.classList.remove("active");
+
+});
+
+
+botao.classList.add("active");
+
+
+document.getElementById(
+"tituloSerie"
+).innerText=
+"📚 Materiais do "+ano+"º ano";
+
+
+document.getElementById(
+"pesquisa"
+).value="";
+
+
+pesquisar();
+
+carregarLivros();
+
+}
+
+
+/* ==================================================
+CARREGAR LIVROS
+================================================== */
+
+function carregarLivros(){
+
+const materias=[
+"Português",
+"Matemática",
+"História",
+"Geografia",
+"Ciências"
+];
+
+
+const chaves=[
+"Portugues",
+"Matematica",
+"Historia",
+"Geografia",
+"Ciencias"
+];
+
+
+const ids=[
+"pdf-portugues",
+"pdf-matematica",
+"pdf-historia",
+"pdf-geografia",
+"pdf-ciencias"
+];
+
+
+for(let i=0;i<materias.length;i++){
+
+const materia=materias[i];
+
+const chave=chaves[i];
+
+const id=ids[i];
+
+const area=
+document.getElementById(id);
+
+if(!area)continue;
+
+
+const link=
+LIVROS[anoAtual][chave];
+
+
+if(
+link &&
+link!=="COLE_AQUI_O_PDF"
+){
+
+const linkSeguro=
+encodeURIComponent(link);
+
+
+area.innerHTML=
+`
+<a
+class="pdfBtn"
+href="#"
+onclick="abrirPDFPorLink('${linkSeguro}','${materia}')"
+>
+📖 Abrir livro do ${anoAtual}º ano
+</a>
+`;
+
+}else{
+
+area.innerHTML=
+`
+<div class="emptyPdf">
+📄 Livro ainda não cadastrado
+</div>
+`;
+
+}
+
+}
+
+}
+
+
+/* ==================================================
+ABRIR PDF PELO LINK
+================================================== */
+
+function abrirPDFPorLink(linkCodificado,materia){
+
+const link=
+decodeURIComponent(linkCodificado);
+
+abrirPDF(link,materia);
+
+}
+
+
+/* ==================================================
+PESQUISA
+================================================== */
+
+function pesquisar(){
+
+const texto=
+document.getElementById(
+"pesquisa"
+).value.toLowerCase();
+
+
+document
+.querySelectorAll(".material")
+.forEach(function(item){
+
+const nome=
+item.getAttribute(
+"data-nome"
+).toLowerCase();
+
+
+if(nome.includes(texto)){
+
+item.style.display="block";
+
+}else{
+
+item.style.display="none";
+
+}
+
+});
+
+}
+/* ==================================================
+ABRIR PDF
+================================================== */
+
+function abrirPDF(link,materia){
+
+if(
+!link ||
+link==="COLE_AQUI_O_PDF"
+){
+
+mostrarToast(
+"PDF não cadastrado."
+);
+
+return;
+
+}
+
+
+if(
+link.includes("drive.google.com/file/d/")
+){
+
+const partes=
+link.split("/file/d/");
+
+if(partes.length>1){
+
+const id=
+partes[1].split("/")[0];
+
+link=
+"https://drive.google.com/file/d/"
++id+
+"/preview";
+
+}
+
+}
+
+else if(
+link.includes("drive.google.com/open?id=")
+){
+
+const id=
+link.split("open?id=")[1]
+.split("&")[0];
+
+link=
+"https://drive.google.com/file/d/"
++id+
+"/preview";
+
+}
+
+
+document.getElementById(
+"pdfTitle"
+).innerText=
+"📖 "+materia+" • "+anoAtual+"º ano";
+
+
+document.getElementById(
+"pdfFrame"
+).src=link;
+
+
+document.getElementById(
+"pdfReader"
+).style.display="block";
+
+
+document.body.style.overflow="hidden";
+
+}
+
+
+/* ==================================================
+FECHAR PDF
+================================================== */
+
+function fecharPDF(){
+
+document.getElementById(
+"pdfFrame"
+).src="";
+
+
+document.getElementById(
+"pdfReader"
+).style.display="none";
+
+
+document.body.style.overflow="";
+
+}
+
+
+/* ==================================================
+CONCLUIR TAREFA
+================================================== */
+
+function concluirTarefa(caixa){
+
+let tarefas=
+Number(
+localStorage.getItem(
+"boraler_tarefas"
+)||0
+);
+
+
+if(caixa.checked){
+
+if(tarefas<TOTAL_TAREFAS){
+
+tarefas++;
+
+}
+
+
+caixa.parentElement
+.querySelector(".taskText")
+.classList.add("done");
+
+
+mostrarToast(
+"✓ Tarefa concluída • +20 XP"
+);
+
+
+}else{
+
+if(tarefas>0){
+
+tarefas--;
+
+}
+
+
+caixa.parentElement
+.querySelector(".taskText")
+.classList.remove("done");
+
+}
+
+
+localStorage.setItem(
+"boraler_tarefas",
+tarefas
+);
+
+
+atualizar();
+
+}
+
+
+/* ==================================================
+ATUALIZAR PROGRESSO
+================================================== */
+
+function atualizar(){
+
+const tarefas=
+Number(
+localStorage.getItem(
+"boraler_tarefas"
+)||0
+);
+
+
+const xp=
+tarefas*20;
+
+
+const porcentagem=
+Math.round(
+(tarefas/TOTAL_TAREFAS)*100
+);
+
+
+const nivel=
+Math.floor(xp/100)+1;
+
+
+const xpNivel=
+xp%100;
+
+
+document.getElementById(
+"statTarefas"
+).innerText=tarefas;
+
+
+document.getElementById(
+"statXp"
+).innerText=xp;
+
+
+document.getElementById(
+"barraHome"
+).style.width=
+porcentagem+"%";
+
+
+document.getElementById(
+"textoHome"
+).innerText=
+porcentagem+
+"% concluído";
+
+
+document.getElementById(
+"barraTarefas"
+).style.width=
+porcentagem+"%";
+
+
+document.getElementById(
+"textoTarefas"
+).innerText=
+tarefas+
+" de "+
+TOTAL_TAREFAS+
+" concluídas";
+
+
+document.getElementById(
+"progTarefas"
+).innerText=tarefas;
+
+
+document.getElementById(
+"progPercent"
+).innerText=
+porcentagem+"%";
+
+
+document.getElementById(
+"progXp"
+).innerText=xp;
+
+
+document.getElementById(
+"nivel"
+).innerText=nivel;
+
+
+document.getElementById(
+"xpTexto"
+).innerText=
+xpNivel+
+" / 100 XP";
+
+
+document.getElementById(
+"barraXp"
+).style.width=
+xpNivel+"%";
+
+
+document.getElementById(
+"perfilTarefas"
+).innerText=tarefas;
+
+
+document.getElementById(
+"perfilXp"
+).innerText=xp;
+
+
+document.getElementById(
+"perfilNivel"
+).innerText=nivel;
+
+}
+
+
+/* ==================================================
+AJUDA
+================================================== */
+
+function mostrarAjuda(tipo){
+
+const area=
+document.getElementById(
+"respostaAjuda"
+);
+
+
+area.style.display="block";
+
+
+if(tipo==="livros"){
+
+area.innerHTML=
+`
+<h3>📚 Biblioteca</h3>
+
+<p class="muted">
+Entre em Livros, escolha o 6º, 7º, 8º ou 9º ano e depois selecione a matéria.
+</p>
+`;
+
+}
+
+
+if(tipo==="pdf"){
+
+area.innerHTML=
+`
+<h3>📄 Livros</h3>
+
+<p class="muted">
+Ao tocar em "Abrir livro", o PDF será carregado dentro do próprio Boraler.
+Links do Google Drive também são convertidos automaticamente para o modo de visualização.
+</p>
+`;
+
+}
+
+
+if(tipo==="tarefas"){
+
+area.innerHTML=
+`
+<h3>📝 Tarefas</h3>
+
+<p class="muted">
+Marque uma tarefa quando terminar. Cada atividade concluída dá 20 XP.
+</p>
+`;
+
+}
+
+
+if(tipo==="xp"){
+
+area.innerHTML=
+`
+<h3>🏆 XP</h3>
+
+<p class="muted">
+Seu XP aumenta conforme você completa tarefas e ajuda a subir de nível.
+</p>
+`;
+
+}
+
+}
+
+
+/* ==================================================
+TOAST
+================================================== */
+
+function mostrarToast(texto){
+
+const toast=
+document.getElementById(
+"toast"
+);
+
+
+toast.innerText=texto;
+
+
+toast.style.display="block";
+
+
+setTimeout(function(){
+
+toast.style.display="none";
+
+},1800);
+
+}
+
+
+/* ==================================================
+INICIAR APP
+================================================== */
+
+window.onload=async function(){
+
+try{
+
+const {data,error}=
+await supabaseClient.auth.getSession();
+
+
+if(error){
+
+console.error(error);
+
+return;
+
+}
+
+
+if(data.session){
+
+abrirAppComUsuario(
+data.session.user
+);
+
+}
+
+}catch(erro){
+
+console.error(erro);
+
+}
+
+
+supabaseClient.auth.onAuthStateChange(
+function(event,session){
+
+if(session){
+
+abrirAppComUsuario(
+session.user
+);
+
+}else if(event==="SIGNED_OUT"){
+
+document.getElementById("app")
+.style.display="none";
+
+
+document.getElementById("login")
+.style.display="flex";
+
+}
+
+}
+);
+
+};
+
+</script>
+
+</body>
+
+</html>
+
